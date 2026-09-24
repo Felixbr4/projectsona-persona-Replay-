@@ -1,0 +1,265 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String      @id @default(cuid())
+  name          String
+  email         String      @unique
+  passwordHash  String
+  role          String      @default("USER") // USER, ADMIN
+  status        String      @default("ACTIVE") // ACTIVE, INACTIVE, BLOCKED
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  orders                  Order[]
+  cart                    Cart?
+  emailVerificationTokens EmailVerificationToken[]
+  passwordResetTokens     PasswordResetToken[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+}
+
+model Game {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String
+  story           String
+  image           String
+  bannerImage     String?
+  theme           String   // persona3, persona4, persona5
+  genre           String   @default("JRPG / Turn-based")
+  developer       String   @default("ATLUS / SEGA")
+  releaseDate     String
+  metacriticScore Int?     @default(90)
+  active          Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  characters     Character[]
+  products       Product[]
+  externalOffers ExternalOffer[]
+
+  @@index([slug])
+  @@index([theme])
+}
+
+model Character {
+  id          String   @id @default(cuid())
+  gameId      String
+  name        String
+  roleTag     String   @default("Protagonist") // Protagonist, Navigator, Party Member, Velvet Room
+  personaName String?
+  arcana      String?  @default("The Fool")
+  description String
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([gameId])
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  gameId        String
+  name          String
+  slug          String   @unique
+  description   String
+  edition       String   @default("Standard Edition") // Standard Edition, Digital Deluxe, Digital Premium
+  price         Float
+  originalPrice Float?
+  platform      String   @default("Steam") // Steam, PlayStation, Xbox, Switch
+  stockQuantity Int      @default(0)
+  active        Boolean  @default(true)
+  isFeatured    Boolean  @default(false)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  game           Game            @relation(fields: [gameId], references: [id], onDelete: Restrict)
+  digitalKeys    DigitalKey[]
+  orderItems     OrderItem[]
+  cartItems      CartItem[]
+  externalOffers ExternalOffer[]
+
+  @@index([gameId])
+  @@index([active])
+  @@index([platform])
+  @@index([price])
+}
+
+model DigitalKey {
+  id            String    @id @default(cuid())
+  productId     String
+  codeEncrypted String
+  codeHash      String    @unique
+  status        String    @default("AVAILABLE") // AVAILABLE, RESERVED, SOLD, CANCELLED
+  orderItemId   String?   @unique
+  soldAt        DateTime?
+  viewedAt      DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  product   Product    @relation(fields: [productId], references: [id], onDelete: Restrict)
+  orderItem OrderItem? @relation(fields: [orderItemId], references: [id])
+
+  @@index([productId])
+  @@index([status])
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  orderNumber String   @unique
+  userId      String
+  totalAmount Float
+  status      String   @default("PENDING_PAYMENT") // PENDING_PAYMENT, PAID, PROCESSING, COMPLETED, CANCELLED, REFUNDED
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  items      OrderItem[]
+  payment    Payment?
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  productId  String
+  quantity   Int      @default(1)
+  unitPrice  Float
+  subtotal   Float
+  createdAt  DateTime @default(now())
+
+  order      Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product    Product     @relation(fields: [productId], references: [id], onDelete: Restrict)
+  digitalKey DigitalKey?
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Payment {
+  id             String    @id @default(cuid())
+  orderId        String    @unique
+  method         String    @default("PIX") // PIX, CREDIT_CARD, MOCK
+  status         String    @default("PENDING") // PENDING, APPROVED, DECLINED, CANCELLED, REFUNDED
+  amount         Float
+  transactionRef String?
+  paidAt         DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([status])
+}
+
+model ExternalStore {
+  id                String   @id @default(cuid())
+  name              String   @unique
+  website           String
+  logoUrl           String?
+  reliabilityStatus String   @default("VERIFIED") // VERIFIED, OFFICIAL_RESELLER, PARTNER
+  active            Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  offers ExternalOffer[]
+
+  @@index([active])
+}
+
+model ExternalOffer {
+  id            String   @id @default(cuid())
+  storeId       String
+  gameId        String
+  productId     String?
+  price         Float
+  originalPrice Float?
+  url           String
+  platform      String   @default("Steam")
+  active        Boolean  @default(true)
+  lastUpdatedAt DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  store   ExternalStore @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  game    Game          @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  product Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([gameId])
+  @@index([storeId])
+  @@index([productId])
+  @@index([price])
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])
+  @@index([cartId])
+  @@index([productId])
+}
