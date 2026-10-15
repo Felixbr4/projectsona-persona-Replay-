@@ -9,26 +9,21 @@ interface Persona4TransitionProps {
 
 /**
  * Persona 4 Revival Thematic Transition
- * Conceito: TV CRT amarela analógica, ruído/estática de sinal chuvoso,
- * espiral hipnótica preto e branca expandindo em zoom até cobrir a tela e revelar o TV World.
- *
- * // TODO: inserir efeito de televisão/espiral Persona 4 com shader customizado futuramente
+ * TV de tubo CRT amarela volumosa, tela curva, chiado visual estático discreto,
+ * espiral amarela e preta contínua com aproximação da câmera (zoom).
  */
 export const Persona4Transition: React.FC<Persona4TransitionProps> = ({ onComplete }) => {
-  const [stage, setStage] = useState<"noise" | "spiral" | "zoom">("noise");
+  const [stage, setStage] = useState<"appear" | "zoom">("appear");
 
   useEffect(() => {
-    // Fase 1: Ruído analógico e sintonia
-    const t1 = setTimeout(() => setStage("spiral"), 700);
-    // Fase 2: Expansão da espiral hipnótica
-    const t2 = setTimeout(() => setStage("zoom"), 1300);
-    // Fase 3: Conclusão e liberação da página
-    const t3 = setTimeout(() => onComplete(), 1800);
+    // Fase 1: TV com espiral e chiado visual
+    const t1 = setTimeout(() => setStage("zoom"), 900);
+    // Fase 2: Conclusão do zoom e liberação
+    const t2 = setTimeout(() => onComplete(), 1600);
 
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
-      clearTimeout(t3);
     };
   }, [onComplete]);
 
@@ -37,64 +32,63 @@ export const Persona4Transition: React.FC<Persona4TransitionProps> = ({ onComple
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#0d0c08]/95 overflow-hidden"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0802]/95 overflow-hidden"
     >
-      {/* Moldura de TV CRT Retrô Amarela */}
+      {/* Moldura de TV de tubo antiga com carcaça amarela volumosa */}
       <motion.div
         animate={{
-          scale: stage === "zoom" ? 5 : 1,
+          scale: stage === "zoom" ? 6 : 1,
           opacity: stage === "zoom" ? 0 : 1,
         }}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
-        className="relative w-[340px] md:w-[480px] h-[260px] md:h-[360px] bg-yellow-400 rounded-3xl p-6 border-8 border-yellow-500 shadow-[0_0_60px_rgba(250,204,21,0.5)] flex flex-col justify-between"
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="relative w-[340px] md:w-[480px] h-[270px] md:h-[370px] bg-gradient-to-b from-[#ffea3b] via-[#ffd700] to-[#d4af37] rounded-[40px] p-6 border-[10px] border-[#996515] shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_50px_rgba(255,215,0,0.35)] flex flex-col justify-between"
       >
-        {/* Antenas do televisor */}
-        <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex gap-12 pointer-events-none">
-          <div className="w-1.5 h-14 bg-yellow-600 rotate-[-25deg] origin-bottom rounded-full" />
-          <div className="w-1.5 h-14 bg-yellow-600 rotate-[25deg] origin-bottom rounded-full" />
+        {/* Antenas telescópicas CRT */}
+        <div className="absolute -top-14 left-1/2 -translate-x-1/2 flex gap-14 pointer-events-none">
+          <div className="w-2 h-16 bg-gradient-to-t from-[#6b4e05] to-[#aaa] rotate-[-28deg] origin-bottom rounded-full shadow-md" />
+          <div className="w-2 h-16 bg-gradient-to-t from-[#6b4e05] to-[#aaa] rotate-[28deg] origin-bottom rounded-full shadow-md" />
         </div>
 
-        {/* Tela CRT com curvatura */}
-        <div className="relative w-full h-[85%] bg-black rounded-2xl overflow-hidden border-4 border-neutral-900 crt-scanline flex items-center justify-center">
-          {stage === "noise" && (
-            <div className="absolute inset-0 bg-neutral-900 flex flex-col items-center justify-center">
-              <div className="animate-pulse text-yellow-400 font-mono text-sm uppercase tracking-widest">
-                [ SINAL MIDNIGHT CHANNEL: CH-04 ]
-              </div>
-              <div className="text-xs text-yellow-300/70 mt-2 font-mono">Sintonizando Inaba Neblina...</div>
-            </div>
-          )}
+        {/* Tela CRT com curvatura de vidro e borda interna espessa */}
+        <div className="relative w-full h-[84%] bg-[#080808] rounded-[28px] overflow-hidden border-[6px] border-[#222] shadow-[inset_0_0_30px_rgba(0,0,0,0.95)] flex items-center justify-center">
+          {/* Espiral contínua amarela e preta */}
+          <div
+            className="w-56 h-56 rounded-full animate-spin shadow-[0_0_25px_rgba(255,215,0,0.6)]"
+            style={{
+              animationDuration: "2.5s",
+              background: "repeating-conic-gradient(#ffd700 0deg 30deg, #111111 30deg 60deg)",
+            }}
+          />
 
-          {/* Espiral Hipnótica em rotação */}
-          {(stage === "spiral" || stage === "zoom") && (
-            <motion.div
-              animate={{ rotate: 720, scale: stage === "zoom" ? 12 : 1 }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="w-48 h-48 rounded-full border-8 border-dashed border-white flex items-center justify-center shadow-[0_0_40px_white]"
-            >
-              <div className="w-32 h-32 rounded-full border-8 border-dotted border-yellow-300 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-black border-4 border-white animate-spin" />
-              </div>
-            </motion.div>
-          )}
+          {/* Chiado visual analógico / Estática leve restrita à tela */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen"
+            style={{
+              backgroundImage: "radial-gradient(circle, #fff 10%, transparent 11%), radial-gradient(circle, #ffd700 10%, transparent 11%)",
+              backgroundSize: "6px 6px, 8px 8px",
+            }}
+          />
 
-          {/* Efeito de scanline analógico */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-yellow-500/5 to-transparent pointer-events-none" />
+          {/* Linhas de scanline CRT */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffd700]/5 to-transparent pointer-events-none" />
+
+          {/* Curvatura de vidro CRT reflexo */}
+          <div className="absolute inset-0 rounded-[24px] pointer-events-none shadow-[inset_0_0_40px_rgba(255,255,255,0.15)]" />
         </div>
 
-        {/* Controles da TV (Botões rotativos e grelha) */}
-        <div className="flex items-center justify-between pt-2">
+        {/* Painel inferior de controles clássicos da TV CRT */}
+        <div className="flex items-center justify-between pt-2 px-2">
           <div className="flex gap-2">
-            <div className="w-4 h-4 rounded-full bg-yellow-700 border border-yellow-800" />
-            <div className="w-4 h-4 rounded-full bg-yellow-700 border border-yellow-800" />
+            <div className="w-5 h-5 rounded-full bg-[#5a3e0b] border-2 border-[#8c6218] shadow-inner" />
+            <div className="w-5 h-5 rounded-full bg-[#5a3e0b] border-2 border-[#8c6218] shadow-inner" />
           </div>
-          <span className="font-mono text-xs font-bold text-yellow-950 uppercase tracking-wider">
-            PERSONA 4 REVIVAL
+          <span className="font-mono text-xs font-black text-[#3d2700] uppercase tracking-widest">
+            PERSONA 4 REVIVAL • TV
           </span>
-          <div className="flex gap-1">
-            <div className="w-1 h-3 bg-yellow-700 rounded-full" />
-            <div className="w-1 h-3 bg-yellow-700 rounded-full" />
-            <div className="w-1 h-3 bg-yellow-700 rounded-full" />
+          <div className="flex gap-1.5">
+            <div className="w-1.5 h-4 bg-[#6b4e05] rounded-full" />
+            <div className="w-1.5 h-4 bg-[#6b4e05] rounded-full" />
+            <div className="w-1.5 h-4 bg-[#6b4e05] rounded-full" />
           </div>
         </div>
       </motion.div>

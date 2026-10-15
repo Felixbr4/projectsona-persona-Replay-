@@ -21,7 +21,7 @@ import {
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
+  const { theme, velvetMode, toggleVelvetMode } = useTheme();
   const { navigateToGame } = useGameTransition();
   const { itemsCount } = useCart();
   const { user, logout } = useAuth();
@@ -29,25 +29,27 @@ export const Header: React.FC = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   const games = [
-    { name: "P3 Reload", slug: "persona-3-reload", themeKey: "persona3" as const, color: "text-cyan-400 border-cyan-400/40" },
-    { name: "P4 Revival", slug: "persona-4-revival", themeKey: "persona4" as const, color: "text-yellow-400 border-yellow-400/40" },
-    { name: "P5 Royal", slug: "persona-5-royal", themeKey: "persona5" as const, color: "text-red-400 border-red-500/40" },
+    { sigla: "P3R", name: "Persona 3 Reload", slug: "persona-3-reload", themeKey: "persona3" as const, color: "text-cyan-400 border-cyan-400/50 hover:bg-cyan-950/40" },
+    { sigla: "P4R", name: "Persona 4 Revival", slug: "persona-4-revival", themeKey: "persona4" as const, color: "text-yellow-400 border-yellow-400/50 hover:bg-yellow-950/40" },
+    { sigla: "P5R", name: "Persona 5 Royal", slug: "persona-5-royal", themeKey: "persona5" as const, color: "text-red-400 border-red-500/50 hover:bg-red-950/40" },
   ];
 
   return (
     <header className="sticky top-0 z-40 w-full bg-theme-bg/85 backdrop-blur-md border-b border-theme-border/60 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo Persona Replay */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-lg bg-theme-primary flex items-center justify-center text-black font-black text-xl shadow-[0_0_15px_var(--theme-glow)] group-hover:rotate-6 transition-transform">
-            🎭
-          </div>
+          <img
+            src="/assets/images/logo.png"
+            alt="Persona Replay"
+            className="h-10 w-auto object-contain transition-transform group-hover:scale-105"
+          />
           <div>
             <span className="text-xl font-black tracking-wider uppercase text-white font-display">
-              PROJEC<span className="text-theme-primary">SONA</span>
+              PERSONA <span className="text-theme-primary">REPLAY</span>
             </span>
             <span className="block text-[10px] font-mono tracking-widest text-theme-muted uppercase -mt-1">
-              Digital Game Marketplace
+              Loja Especializada Persona
             </span>
           </div>
         </Link>
@@ -65,19 +67,19 @@ export const Header: React.FC = () => {
             Início
           </Link>
 
-          {/* Seletor Rápido dos 3 Jogos com Transição Cinemática */}
-          <div className="flex items-center gap-1.5 px-2 py-1 bg-theme-surface/50 border border-theme-border rounded-xl">
+          {/* Seletor Rápido dos Jogos com Siglas Maiores e Visíveis */}
+          <div className="flex items-center gap-2 px-2.5 py-1.5 bg-theme-surface/70 border border-theme-border rounded-xl">
             <span className="text-xs font-mono text-neutral-400 px-1 hidden xl:inline">JOGOS:</span>
             {games.map((g) => (
               <button
                 key={g.slug}
                 onClick={() => navigateToGame(g.slug, g.themeKey)}
-                className={`px-2.5 py-1 text-xs font-black uppercase rounded-lg border transition-all ${g.color} ${
-                  theme === g.themeKey ? "bg-white/10 shadow-[0_0_10px_currentColor]" : "hover:bg-white/5 opacity-80 hover:opacity-100"
+                className={`px-3.5 py-1 text-base font-black tracking-wider uppercase rounded-lg border transition-all ${g.color} ${
+                  theme === g.themeKey ? "bg-white/15 shadow-[0_0_12px_currentColor] scale-105" : "opacity-85 hover:opacity-100"
                 }`}
                 title={`Explorar ${g.name} com transição temática`}
               >
-                {g.name}
+                <span>{g.sigla}</span>
               </button>
             ))}
           </div>
@@ -106,8 +108,24 @@ export const Header: React.FC = () => {
           </Link>
         </nav>
 
-        {/* Right Actions (Cart, User, Admin) */}
-        <div className="flex items-center gap-3">
+        {/* Right Actions (Velvet, Cart, User, Admin) */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Controle Independente Velvet */}
+          <button
+            onClick={toggleVelvetMode}
+            id="velvet-toggle-btn"
+            className={`px-3 py-1.5 rounded-xl border text-xs font-black tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              velvetMode
+                ? "bg-blue-600 border-blue-300 text-white shadow-[0_0_15px_rgba(37,99,235,0.7)]"
+                : "bg-theme-surface border-theme-border text-blue-400 hover:border-blue-400 hover:bg-blue-950/40"
+            }`}
+            title="Alternar paleta de cores Velvet Room"
+            aria-pressed={velvetMode}
+          >
+            <span className={`w-2 h-2 rounded-full ${velvetMode ? "bg-white animate-ping" : "bg-blue-400"}`}></span>
+            VELVET
+          </button>
+
           {/* Carrinho */}
           <Link
             href="/carrinho"

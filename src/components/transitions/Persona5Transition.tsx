@@ -9,18 +9,21 @@ interface Persona5TransitionProps {
 
 /**
  * Persona 5 Royal Thematic Transition
- * Conceito: Estilo de quadrinho rebelde e corte "All-Out Attack" / Joker,
- * faixas diagonais vermelhas e pretas cruzam a tela com efeito de impacto e máscara dos Phantom Thieves.
- *
- * // TODO: inserir efeito de rachadura/Joker cinematográfico Persona 5 com sprites adicionais
+ * Máscara do protagonista Joker sendo progressivamente coberta por chamas azuis e ciano orgânicas,
+ * substituindo os conceitos anteriores de calling card e cortes.
  */
 export const Persona5Transition: React.FC<Persona5TransitionProps> = ({ onComplete }) => {
-  const [phase, setPhase] = useState<"slash" | "callingCard" | "shatter">("slash");
+  const [flameStage, setFlameStage] = useState<"initial" | "ignite" | "engulf">("initial");
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("callingCard"), 600);
-    const t2 = setTimeout(() => setPhase("shatter"), 1200);
-    const t3 = setTimeout(() => onComplete(), 1700);
+    // Sequência:
+    // 1. A máscara aparece com detalhes visíveis
+    // 2. Pequenas chamas azuis começam a surgir
+    const t1 = setTimeout(() => setFlameStage("ignite"), 300);
+    // 3. Chamas azuis e ciano se espalham progressivamente até cobri-la
+    const t2 = setTimeout(() => setFlameStage("engulf"), 900);
+    // 4. Conclusão da transição e revelação da página
+    const t3 = setTimeout(() => onComplete(), 1800);
 
     return () => {
       clearTimeout(t1);
@@ -36,54 +39,73 @@ export const Persona5Transition: React.FC<Persona5TransitionProps> = ({ onComple
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 overflow-hidden"
     >
-      {/* Faixas diagonais cortando em velocidade extrema */}
-      <motion.div
-        initial={{ x: "-100%", skewX: -20 }}
-        animate={{ x: "0%", skewX: -20 }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
-        className="absolute inset-0 bg-red-600 origin-left"
-        style={{ clipPath: "polygon(0 0, 100% 0, 80% 100%, 0% 100%)" }}
-      />
-      <motion.div
-        initial={{ x: "100%", skewX: -20 }}
-        animate={{ x: "0%", skewX: -20 }}
-        transition={{ duration: 0.45, ease: "easeOut", delay: 0.1 }}
-        className="absolute inset-0 bg-black/90"
-        style={{ clipPath: "polygon(40% 0, 100% 0, 100% 100%, 20% 100%)" }}
-      />
-
-      {/* Cartão de Visita / Phantom Calling Card & Máscara de Joker */}
-      <div className="relative z-10 flex flex-col items-center">
+      {/* Contêiner da Máscara do Joker com proporções preservadas */}
+      <div className="relative flex flex-col items-center justify-center max-w-lg w-full px-6">
         <motion.div
-          animate={{
-            scale: phase === "callingCard" ? [0.8, 1.15, 1] : 1,
-            rotate: [-12, -4],
-          }}
-          transition={{ duration: 0.4 }}
-          className="bg-neutral-900 border-4 border-red-500 text-white p-6 shadow-[0_0_50px_rgba(239,68,68,0.8)] -rotate-3 max-w-sm text-center"
-          style={{ clipPath: "polygon(4% 0%, 100% 0%, 96% 100%, 0% 100%)" }}
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: flameStage === "engulf" ? 1.08 : 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative w-72 md:w-96 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,180,255,0.4)] border-2 border-cyan-500/30 bg-black/60"
         >
-          <div className="bg-red-600 text-white font-black text-xs px-3 py-1 uppercase tracking-widest inline-block mb-3">
-            PHANTOM THIEVES OF HEARTS
-          </div>
-          <h2 className="text-3xl font-black italic tracking-tighter uppercase text-white drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">
-            TAKE YOUR HEART!
-          </h2>
-          <p className="text-xs text-red-200 mt-2 font-mono">
-            Sir / Madam Player, seu coração de gamer foi oficialmente alvo.
-          </p>
-          <div className="mt-4 pt-3 border-t border-red-500/40 flex items-center justify-between text-xs font-bold text-red-400">
-            <span>METAVERSE NAVIGATOR</span>
-            <span className="text-white bg-black px-2 py-0.5">P5 ROYAL</span>
+          {/* Imagem autêntica da Máscara de Joker */}
+          <img
+            src="/assets/images/transitions/joker-mask.jpg"
+            alt="Máscara Joker - Persona 5 Royal"
+            className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-[0_0_20px_rgba(0,210,255,0.3)]"
+          />
+
+          {/* Chamas azuis e ciano com movimento orgânico progressivo */}
+          <div
+            className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
+              flameStage === "initial"
+                ? "opacity-0"
+                : flameStage === "ignite"
+                ? "opacity-60"
+                : "opacity-100"
+            }`}
+          >
+            {/* Camada 1 de chamas azuis profundas */}
+            <div
+              className="absolute inset-0 mix-blend-screen animate-pulse"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 80%, rgba(0, 210, 255, 0.75) 0%, rgba(0, 102, 255, 0.6) 45%, rgba(0, 0, 180, 0.4) 70%, transparent 95%)",
+              }}
+            />
+
+            {/* Camada 2 de labaredas ciano ondulantes */}
+            <div
+              className="absolute inset-0 mix-blend-color-dodge"
+              style={{
+                background:
+                  "linear-gradient(0deg, rgba(0,240,255,0.85) 0%, rgba(30,144,255,0.7) 40%, rgba(100,50,255,0.5) 75%, transparent 100%)",
+                filter: "blur(4px)",
+              }}
+            />
+
+            {/* Partículas de chamas azuis subindo */}
+            <div
+              className="absolute inset-0 opacity-80"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle, #00ffff 20%, transparent 25%), radial-gradient(circle, #0088ff 20%, transparent 25%)",
+                backgroundSize: "20px 20px, 32px 32px",
+                backgroundPosition: "0 0, 10px 16px",
+              }}
+            />
           </div>
         </motion.div>
 
-        {/* Efeito de Corte Visual Slash */}
+        {/* Indicador de título estilizado Persona 5 */}
         <motion.div
-          animate={{ scaleX: [0, 1.5, 0], opacity: [0, 1, 0] }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="w-96 h-1 bg-white shadow-[0_0_20px_white] -rotate-12 mt-4"
-        />
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-6 text-center"
+        >
+          <span className="font-mono text-xs uppercase tracking-widest text-cyan-400 font-bold bg-cyan-950/60 px-4 py-1.5 rounded-full border border-cyan-500/40 shadow-[0_0_15px_rgba(0,210,255,0.3)]">
+            PERSONA 5 ROYAL • AWAKENING
+          </span>
+        </motion.div>
       </div>
     </motion.div>
   );

@@ -86,10 +86,13 @@ if ($path === '/jogos') {
     exit;
 }
 
-// 5. Game Detail: /jogos/{slug} (Redirect legacy split P4 URLs to unified /jogos/persona-4)
-if ($path === '/jogos/persona-4-golden' || $path === '/jogos/persona-4-revival') {
+// 5. Game Detail: /jogos/{slug}
+if ($path === '/jogos/persona-4-golden') {
     header('Location: ' . url('jogos/persona-4'));
     exit;
+}
+if ($path === '/jogos/persona-4-revival') {
+    $path = '/jogos/persona-4';
 }
 
 if (preg_match('#^/jogos/([a-zA-Z0-9_-]+)$#', $path, $matches)) {

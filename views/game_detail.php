@@ -67,7 +67,12 @@ $isP5 = ($game['theme'] === 'persona5');
                 <?php foreach ($characters as $char): 
                     $hasTransformed = !empty($char['image_transformed']);
                 ?>
-                    <div class="card card-hover <?= $hasTransformed ? 'p5-dual-card' : '' ?>" style="padding: 0; overflow: hidden; border-radius: 16px;">
+                    <?php if ($hasTransformed): ?>
+                        <link rel="preload" as="image" href="<?= asset($char['image_transformed']) ?>">
+                    <?php endif; ?>
+                    <div class="card card-hover <?= $hasTransformed ? 'p5-dual-card' : '' ?>" 
+                         <?= $hasTransformed ? 'tabindex="0" role="button" aria-pressed="false" aria-label="' . htmlspecialchars($char['name']) . ' (Pressione Enter, Espaço ou toque para alternar forma Phantom Thief)"' : '' ?> 
+                         style="padding: 0; overflow: hidden; border-radius: 16px;">
                         <div class="<?= $hasTransformed ? 'p5-img-container' : '' ?>" style="<?= !$hasTransformed ? 'position: relative; aspect-ratio: 1 / 1; overflow: hidden;' : '' ?>">
                             <?php if ($hasTransformed): ?>
                                 <img src="<?= asset($char['image']) ?>" alt="<?= htmlspecialchars($char['name']) ?>" class="p5-img-normal">
@@ -104,9 +109,6 @@ $isP5 = ($game['theme'] === 'persona5');
         <div style="margin-bottom: 28px;">
             <span class="badge badge-primary" style="margin-bottom: 6px;">Compre com Chaves Steam Oficiais</span>
             <h2 class="font-display" style="font-size: 30px; font-weight: 900; text-transform: uppercase;">Edições de <?= htmlspecialchars($game['name']) ?></h2>
-            <?php if ($game['slug'] === 'persona-4'): ?>
-                <p style="color: var(--theme-muted); font-size: 14px; margin-top: 4px;">Escolha entre a versão clássica <strong>Persona 4 Golden</strong> e a recriação expandida <strong>Persona 4 Revival</strong>.</p>
-            <?php endif; ?>
         </div>
 
         <div class="products-grid">

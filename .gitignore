@@ -37,3 +37,7 @@ next-env.d.ts
 dev.db
 dev.db-journal
 *.db
+
+# Symlinks / junctions
+public/assets
+

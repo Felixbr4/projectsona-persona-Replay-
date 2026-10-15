@@ -11,7 +11,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="<?= url('/') ?>" class="logo-brand-wrap" style="margin-bottom: 8px;">
-                        <img src="<?= asset('images/logo.svg') ?>" alt="Persona Replay Logo" style="height: 40px; width: auto;">
+                        <img src="<?= asset('images/logo.png') ?>" alt="Persona Replay Logo" style="height: 44px; width: auto; object-fit: contain;">
                     </a>
                     <p>A loja definitiva dedicada aos fãs da franquia Persona. Chaves Steam oficiais com entrega instantânea e comparador de ofertas em tempo real.</p>
                 </div>
@@ -20,7 +20,7 @@
                     <h4>Jogos Persona</h4>
                     <ul>
                         <li><a href="<?= url('jogos/persona-3-reload') ?>">Persona 3 Reload</a></li>
-                        <li><a href="<?= url('jogos/persona-4') ?>">Persona 4 (Golden & Revival)</a></li>
+                        <li><a href="<?= url('jogos/persona-4') ?>">Persona 4 Revival</a></li>
                         <li><a href="<?= url('jogos/persona-5-royal') ?>">Persona 5 Royal</a></li>
                     </ul>
                 </div>

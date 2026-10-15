@@ -1,36 +1,101 @@
 /**
- * ProjecSona - Frontend Interactive JavaScript
+ * Persona Replay - Interactive Frontend Engine
+ * - Independent Velvet Room Palette Controller
+ * - Game Navigation Tabs
+ * - Persona 5 Royal Dual-image Character Interactions (Mouse, Touch, Keyboard)
+ * - UI Utilities
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Theme Switcher Handler
-    const themePills = document.querySelectorAll('.theme-pill');
-    themePills.forEach(pill => {
-        pill.addEventListener('click', (e) => {
-            const theme = pill.getAttribute('data-theme');
-            
-            // Remove previous theme classes
-            document.body.classList.remove('theme-persona3', 'theme-persona4', 'theme-persona5');
-            
-            if (theme !== 'velvet') {
-                document.body.classList.add(`theme-${theme}`);
+    const baseUrl = document.body.getAttribute('data-base-url') || '';
+
+    // =========================================================================
+    // 1. Independent Velvet Room Color Theme Controller
+    // =========================================================================
+    const velvetBtn = document.getElementById('velvet-toggle-btn');
+    
+    // Check initial preference from localStorage if cookie wasn't yet initialized
+    const savedVelvet = localStorage.getItem('persona_velvet_mode');
+    if (savedVelvet === 'true' && !document.body.classList.contains('velvet-mode')) {
+        document.body.classList.add('velvet-mode');
+        if (velvetBtn) {
+            velvetBtn.classList.add('active');
+            velvetBtn.setAttribute('aria-pressed', 'true');
+        }
+    } else if (savedVelvet === 'false' && document.body.classList.contains('velvet-mode')) {
+        document.body.classList.remove('velvet-mode');
+        if (velvetBtn) {
+            velvetBtn.classList.remove('active');
+            velvetBtn.setAttribute('aria-pressed', 'false');
+        }
+    }
+
+    if (velvetBtn) {
+        velvetBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const isCurrentlyVelvet = document.body.classList.contains('velvet-mode');
+            const newVelvetState = !isCurrentlyVelvet;
+
+            if (newVelvetState) {
+                document.body.classList.add('velvet-mode');
+                velvetBtn.classList.add('active');
+                velvetBtn.setAttribute('aria-pressed', 'true');
+            } else {
+                document.body.classList.remove('velvet-mode');
+                velvetBtn.classList.remove('active');
+                velvetBtn.setAttribute('aria-pressed', 'false');
             }
 
-            // Update active pill state
-            themePills.forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
+            // Persist preference in localStorage
+            localStorage.setItem('persona_velvet_mode', newVelvetState ? 'true' : 'false');
 
-            // Save to session via AJAX
-            const baseUrl = document.body.getAttribute('data-base-url') || '';
+            // Persist to server session/cookie via AJAX (does not reload or navigate)
             fetch(`${baseUrl}/api/theme.php`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `theme=${encodeURIComponent(theme)}`
-            }).catch(err => console.log('Theme sync error:', err));
+                body: `velvet=${newVelvetState ? 'true' : 'false'}`
+            }).catch(err => console.log('Velvet sync warning:', err));
+        });
+    }
+
+    // =========================================================================
+    // 2. Persona 5 Royal Dual-Image Character Cards Interaction (Mouse, Touch, Keyboard)
+    // =========================================================================
+    const p5Cards = document.querySelectorAll('.p5-dual-card');
+    p5Cards.forEach(card => {
+        // Preload the transformed image to prevent empty flash
+        const transformedImg = card.querySelector('.p5-img-transformed');
+        if (transformedImg && transformedImg.src) {
+            const preload = new Image();
+            preload.src = transformedImg.src;
+        }
+
+        // Touch & Click toggle for touch devices
+        card.addEventListener('click', (e) => {
+            // Avoid triggering when clicking child links or buttons
+            if (e.target.closest('a, button, input, form')) return;
+            
+            card.classList.toggle('transformed');
+            const isTransformed = card.classList.contains('transformed');
+            card.setAttribute('aria-pressed', isTransformed ? 'true' : 'false');
+        });
+
+        // Keyboard interaction (Enter / Space)
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                card.classList.toggle('transformed');
+                const isTransformed = card.classList.contains('transformed');
+                card.setAttribute('aria-pressed', isTransformed ? 'true' : 'false');
+            }
         });
     });
 
-    // 2. Copy Digital Key to Clipboard
+    // =========================================================================
+    // 3. Copy Digital Key to Clipboard
+    // =========================================================================
     const copyBtns = document.querySelectorAll('.btn-copy-key');
     copyBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -49,18 +114,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Cart Quantity Update
+    // =========================================================================
+    // 4. Cart Quantity Update
+    // =========================================================================
     const qtyInputs = document.querySelectorAll('.cart-qty-input');
     qtyInputs.forEach(input => {
         input.addEventListener('change', () => {
             const form = input.closest('form');
-            if (form) {
-                form.submit();
-            }
+            if (form) form.submit();
         });
     });
 
-    // 4. Auto dismiss alert messages after 5 seconds
+    // =========================================================================
+    // 5. Auto Dismiss Alerts
+    // =========================================================================
     const alerts = document.querySelectorAll('.alert-dismissible');
     alerts.forEach(alert => {
         setTimeout(() => {

@@ -77,7 +77,7 @@ async function main() {
       metacriticScore: 89,
       description: "Mergulhe na Dark Hour e desperte as profundezas do seu coração. O remake definitivo do aclamado RPG que revolucionou a franquia com visuais em Unreal Engine e trilha sonora regravada.",
       story: "Se eu disser que existe uma hora escondida entre um dia e o próximo... você acreditaria? Ao se transferir para a Gekkoukan High School, o protagonista descobre a 'Dark Hour', um período sobrenatural à meia-noite onde as pessoas se transformam em caixões e sombras emergem de uma colossal torre chamada Tártaro. Ao despertar sua Persona com um Evoker, ele se junta ao SEES (Specialized Extracurricular Execution Squad) para desvendar o mistério e desafiar o próprio destino.",
-      image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop",
+      image: "/assets/images/covers/p3r.jpg",
       bannerImage: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1600&auto=format&fit=crop",
     },
   });
@@ -93,7 +93,7 @@ async function main() {
       metacriticScore: 93,
       description: "Sintonize no Midnight Channel e encare sua verdadeira face. Uma narrativa eletrizante de assassinato em série numa pacata cidade rural envolta por neblina misteriosa.",
       story: "Uma pacata cidade rural do interior do Japão chamada Inaba é abalada por uma série de assassinatos bizarros que ocorrem sempre em noites chuvosas de neblina densa. Um rumor urbano diz que olhar para uma televisão desligada à meia-noite durante a chuva revela sua alma gêmea no lendário 'Midnight Channel'. Ao investigar, o protagonista e seus amigos descobrem que o canal é a entrada para um mundo distorcido dentro da TV, onde precisam enfrentar suas próprias Sombras interiores e salvar vítimas antes que a neblina se espalhe.",
-      image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop",
+      image: "/assets/images/covers/p4r.jpg",
       bannerImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1600&auto=format&fit=crop",
     },
   });
@@ -109,7 +109,7 @@ async function main() {
       metacriticScore: 95,
       description: "Coloque sua máscara, roube os desejos corrompidos e liberte o mundo. A experiência definitiva dos Phantom Thieves repleta de estilo, jazz dinâmico e atitude rebelde.",
       story: "Forçado a se transferir para a Shujin Academy em Tóquio após ser injustamente condenado, o protagonista descobre um aplicativo misterioso em seu smartphone chamado Metaverse Navigator. Ele desperta o poder de sua Persona e funda os 'Phantom Thieves of Hearts' (Ladrões Fantasmas de Copas). Usando máscaras e trajes rebeldes, o grupo invade os 'Palácios' — projeções cognitivas distorcidas dos desejos corrompidos de adultos abusivos — para roubar seus 'Tesouros' e forçar confissões de seus crimes.",
-      image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&auto=format&fit=crop",
+      image: "/assets/images/covers/p5r.jpg",
       bannerImage: "https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1600&auto=format&fit=crop",
     },
   });
@@ -256,16 +256,16 @@ async function main() {
   const p4Product = await prisma.product.create({
     data: {
       gameId: p4.id,
-      name: "Persona 4 Revival / Golden - Deluxe Edition (Steam Key)",
-      slug: "persona-4-revival-deluxe",
-      edition: "Deluxe Edition",
-      price: 59.94,
-      originalPrice: 99.90,
+      name: "Persona 4 Revival - Definitive Edition (Steam Key)",
+      slug: "persona-4-revival-definitive",
+      edition: "Definitive Edition",
+      price: 189.90,
+      originalPrice: 249.90,
       platform: "Steam",
       stockQuantity: 8,
       isFeatured: true,
-      description: "Reviva o clássico atemporal vencedor de múltiplos prêmios com resolução 4K, áudio em japonês/inglês e cartas colecionáveis Steam.",
-      image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
+      description: "A recriação expandida da jornada em Inaba com gráficos renovados, melhorias de qualidade de vida e conteúdo extra.",
+      image: "/assets/images/covers/p4r.jpg",
     },
   });
 
@@ -375,10 +375,10 @@ async function main() {
     { storeId: storeSteam.id, gameId: p3.id, productId: p3ProductStd.id, price: 349.90, originalPrice: 349.90, url: "https://store.steampowered.com/app/2161700/Persona_3_Reload/", platform: "Steam" },
     { storeId: storeGMG.id, gameId: p3.id, productId: p3ProductStd.id, price: 265.40, originalPrice: 349.90, url: "https://www.greenmangaming.com/games/persona-3-reload-pc/", platform: "Steam" },
 
-    // P4 Golden / Revival Offers
-    { storeId: storeNuuvem.id, gameId: p4.id, productId: p4Product.id, price: 69.90, originalPrice: 99.90, url: "https://www.nuuvem.com/br-pt/item/persona-4-golden", platform: "Steam" },
-    { storeId: storeSteam.id, gameId: p4.id, productId: p4Product.id, price: 99.90, originalPrice: 99.90, url: "https://store.steampowered.com/app/1113000/Persona_4_Golden/", platform: "Steam" },
-    { storeId: storeGMG.id, gameId: p4.id, productId: p4Product.id, price: 74.90, originalPrice: 99.90, url: "https://www.greenmangaming.com/games/persona-4-golden-pc/", platform: "Steam" },
+    // P4 Revival Offers
+    { storeId: storeNuuvem.id, gameId: p4.id, productId: p4Product.id, price: 179.90, originalPrice: 249.90, url: "https://www.nuuvem.com/br-pt/item/persona-4-revival", platform: "Steam" },
+    { storeId: storeSteam.id, gameId: p4.id, productId: p4Product.id, price: 189.90, originalPrice: 249.90, url: "https://store.steampowered.com/app/persona-4-revival/", platform: "Steam" },
+    { storeId: storeGMG.id, gameId: p4.id, productId: p4Product.id, price: 184.90, originalPrice: 249.90, url: "https://www.greenmangaming.com/games/persona-4-revival/", platform: "Steam" },
 
     // P5 Royal Offers
     { storeId: storeNuuvem.id, gameId: p5.id, productId: p5ProductStd.id, price: 134.95, originalPrice: 299.90, url: "https://www.nuuvem.com/br-pt/item/persona-5-royal", platform: "Steam" },

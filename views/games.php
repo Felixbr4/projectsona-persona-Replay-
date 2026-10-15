@@ -30,9 +30,6 @@ require_once __DIR__ . '/../includes/header.php';
                     <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
                         <span class="badge badge-primary">Metacritic <?= $game['metacritic_score'] ?></span>
                         <span class="badge badge-primary"><?= htmlspecialchars($game['genre']) ?></span>
-                        <?php if ($game['slug'] === 'persona-4'): ?>
-                            <span class="badge badge-discount">Inclui Golden & Revival</span>
-                        <?php endif; ?>
                     </div>
 
                     <h2 class="font-display" style="font-size: 28px; font-weight: 900; text-transform: uppercase; margin-bottom: 12px;">

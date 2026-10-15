@@ -23,7 +23,7 @@ require_once __DIR__ . '/../includes/header.php';
         </h1>
 
         <p class="hero-subtitle">
-            Encontre as melhores edições de <strong>Persona 3 Reload</strong>, <strong>Persona 4 (Golden & Revival)</strong> e <strong>Persona 5 Royal</strong>. Compare preços em tempo real com lojas autorizadas e ative instantaneamente na sua Steam.
+            Encontre as melhores edições de <strong>Persona 3 Reload</strong>, <strong>Persona 4 Revival</strong> e <strong>Persona 5 Royal</strong>. Compare preços em tempo real com lojas autorizadas e ative instantaneamente na sua Steam.
         </p>
 
         <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
@@ -82,7 +82,7 @@ require_once __DIR__ . '/../includes/header.php';
         ?>
             <div class="product-card">
                 <div class="product-card-image">
-                    <img src="<?= asset($prod['image'] ?: 'images/persona/persona 5 Royal/Jolker.jpg') ?>" alt="<?= htmlspecialchars($prod['name']) ?>">
+                    <img src="<?= asset($prod['image'] ?: 'images/covers/p5r.jpg') ?>" alt="<?= htmlspecialchars($prod['name']) ?>">
                     <div style="position: absolute; top: 12px; left: 12px; display: flex; gap: 6px;">
                         <span class="badge badge-primary"><?= htmlspecialchars($prod['platform']) ?></span>
                         <?php if ($discount > 0): ?>

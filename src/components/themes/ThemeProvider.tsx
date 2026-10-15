@@ -7,6 +7,8 @@ export type PersonaTheme = "default" | "persona3" | "persona4" | "persona5";
 interface ThemeContextType {
   theme: PersonaTheme;
   setTheme: (theme: PersonaTheme) => void;
+  velvetMode: boolean;
+  toggleVelvetMode: () => void;
   themeConfig: {
     name: string;
     primaryColor: string;
@@ -18,7 +20,7 @@ interface ThemeContextType {
 
 const THEME_CONFIGS: Record<PersonaTheme, ThemeContextType["themeConfig"]> = {
   default: {
-    name: "Velvet Room Standard",
+    name: "Persona Replay Standard",
     primaryColor: "#3b82f6",
     accentColor: "#00d2ff",
     bgGradient: "from-slate-950 via-slate-900 to-indigo-950",
@@ -51,6 +53,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<PersonaTheme>("default");
+  const [velvetMode, setVelvetMode] = useState<boolean>(false);
 
   useEffect(() => {
     // Carregar preferência de tema salva ou restaurar
@@ -58,11 +61,29 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (savedTheme && THEME_CONFIGS[savedTheme]) {
       setThemeState(savedTheme);
     }
+    const savedVelvet = localStorage.getItem("persona_velvet_mode") === "true";
+    setVelvetMode(savedVelvet);
+    if (savedVelvet) {
+      document.body.classList.add("velvet-mode");
+    }
   }, []);
 
   const setTheme = (newTheme: PersonaTheme) => {
     setThemeState(newTheme);
     localStorage.setItem("projecsona_theme", newTheme);
+  };
+
+  const toggleVelvetMode = () => {
+    setVelvetMode((prev) => {
+      const next = !prev;
+      localStorage.setItem("persona_velvet_mode", String(next));
+      if (next) {
+        document.body.classList.add("velvet-mode");
+      } else {
+        document.body.classList.remove("velvet-mode");
+      }
+      return next;
+    });
   };
 
   useEffect(() => {
@@ -78,6 +99,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       value={{
         theme,
         setTheme,
+        velvetMode,
+        toggleVelvetMode,
         themeConfig: THEME_CONFIGS[theme] || THEME_CONFIGS.default,
       }}
     >

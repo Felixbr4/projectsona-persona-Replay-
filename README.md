@@ -1,6 +1,6 @@
 # 🎭 ProjecSona - A Loja Definitiva da Franquia Persona (Versão PHP)
 
-Sistema web completo de e-commerce e comparador de preços dedicado à franquia Persona (**Persona 3 Reload**, **Persona 4 Revival / Golden** e **Persona 5 Royal**), desenvolvido em **PHP puro moderno + PDO + MySQL / SQLite** para rodar diretamente no Apache do XAMPP.
+Sistema web completo de e-commerce e comparador de preços dedicado à franquia Persona (**Persona 3 Reload**, **Persona 4 Revival** e **Persona 5 Royal**), desenvolvido em **PHP puro moderno + PDO + MySQL / SQLite** para rodar diretamente no Apache do XAMPP.
 
 ---
 

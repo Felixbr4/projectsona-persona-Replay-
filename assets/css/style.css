@@ -39,7 +39,7 @@ body.theme-persona3 {
   --theme-glow: rgba(0, 210, 255, 0.5);
 }
 
-/* Persona 4 (Golden & Revival - Warm Inaba Amber, Golden Ochre & TV Yellow) */
+/* Persona 4 Revival - Warm Inaba Amber, Ochre & TV Yellow */
 body.theme-persona4 {
   --theme-bg: #211c08;
   --theme-surface: #362e0d;
@@ -69,6 +69,22 @@ body.theme-persona5 {
   --theme-muted: #fca5a5;
   --theme-border: #731c1c;
   --theme-glow: rgba(239, 68, 68, 0.55);
+}
+
+/* Independent Velvet Room Palette Mode (Deep Royal Indigo, Rich Blue & Clear Accents) */
+body.velvet-mode {
+  --theme-bg: #060b19 !important;
+  --theme-surface: #0e1738 !important;
+  --theme-surface-hover: #162454 !important;
+  --theme-card: #0a1330 !important;
+  --theme-primary: #3b82f6 !important;
+  --theme-primary-hover: #60a5fa !important;
+  --theme-secondary: #1d4ed8 !important;
+  --theme-accent: #93c5fd !important;
+  --theme-text: #f8fafc !important;
+  --theme-muted: #94a3b8 !important;
+  --theme-border: #1e3a8a !important;
+  --theme-glow: rgba(59, 130, 246, 0.55) !important;
 }
 
 /* Reset and Base Styles */
@@ -198,39 +214,141 @@ body.theme-persona5 .navbar { background: rgba(36, 8, 8, 0.92); }
   gap: 16px;
 }
 
-/* Theme Switcher Widget */
-.theme-selector {
+/* ==============================================================================
+   REQUIREMENT 1: ENLARGED GAME TABS SIGLAS (P3R, P4R, P5R)
+   ============================================================================== */
+.game-tabs-selector {
   display: flex;
   background: var(--theme-surface);
   border: 1px solid var(--theme-border);
   border-radius: 9999px;
   padding: 4px;
-  gap: 4px;
+  gap: 6px;
+  align-items: center;
 }
 
-.theme-pill {
-  padding: 5px 12px;
+.game-tab-pill {
+  padding: 7px 16px;
   border-radius: 9999px;
-  font-size: 11px;
-  font-weight: 800;
   cursor: pointer;
-  border: none;
+  border: 1.5px solid transparent;
   background: transparent;
-  color: var(--theme-muted);
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  min-height: 38px;
+}
+
+.tab-sigla {
   font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  line-height: 1;
   text-transform: uppercase;
 }
 
-.theme-pill.active {
-  background: var(--theme-primary);
-  color: #000;
-  font-weight: 900;
-  box-shadow: 0 0 14px var(--theme-glow);
+/* P3R: Persona 3 Reload Tab */
+.game-tab-pill.p3-tab {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+.game-tab-pill.p3-tab:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.7);
+}
+.game-tab-pill.p3-tab.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.75);
 }
 
-body.theme-persona5 .theme-pill.active {
-  color: #fff;
+/* P4R: Persona 4 Revival Tab */
+.game-tab-pill.p4-tab {
+  color: #facc15;
+  border-color: rgba(250, 204, 21, 0.3);
+}
+.game-tab-pill.p4-tab:hover {
+  background: rgba(250, 204, 21, 0.15);
+  border-color: rgba(250, 204, 21, 0.7);
+}
+.game-tab-pill.p4-tab.active {
+  background: #eab308;
+  color: #000000;
+  font-weight: 900;
+  border-color: #fde047;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.8);
+}
+
+/* P5R: Persona 5 Royal Tab */
+.game-tab-pill.p5-tab {
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+.game-tab-pill.p5-tab:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.7);
+}
+.game-tab-pill.p5-tab.active {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #f87171;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.8);
+}
+
+/* ==============================================================================
+   REQUIREMENT 2: INDEPENDENT VELVET ROOM PALETTE TOGGLE BUTTON
+   ============================================================================== */
+.velvet-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: #0a1333;
+  border: 1.5px solid #2563eb;
+  color: #93c5fd;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  min-height: 38px;
+}
+
+.velvet-btn:hover {
+  background: #1e3a8a;
+  color: #ffffff;
+  border-color: #60a5fa;
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.45);
+}
+
+.velvet-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3b82f6;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 6px #3b82f6;
+}
+
+.velvet-btn.active {
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
+  border-color: #93c5fd !important;
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.75) !important;
+}
+
+.velvet-btn.active .velvet-dot {
+  background: #67e8f9;
+  box-shadow: 0 0 10px #67e8f9;
+  transform: scale(1.25);
 }
 
 /* Buttons */
@@ -543,11 +661,17 @@ input[type="password"].form-control-auth {
 }
 
 /* ==============================================================================
-   REQUIREMENT 6: PERSONA 5 ROYAL DUAL-IMAGE CHARACTER HOVER INTERACTION
+   REQUIREMENT 3: PERSONA 5 ROYAL DUAL-IMAGE CHARACTER INTERACTION
    ============================================================================== */
 .p5-dual-card {
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  outline: none;
+}
+
+.p5-dual-card:focus-visible {
+  box-shadow: 0 0 0 3px #ef4444, 0 0 20px rgba(239, 68, 68, 0.6) !important;
 }
 
 .p5-img-container {
@@ -562,7 +686,7 @@ input[type="password"].form-control-auth {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.35s ease, transform 0.4s ease;
   z-index: 1;
 }
 
@@ -573,16 +697,23 @@ input[type="password"].form-control-auth {
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transform: scale(1.08);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: scale(1.06);
+  transition: opacity 0.35s ease, transform 0.4s ease;
   z-index: 2;
 }
 
-.p5-dual-card:hover .p5-img-normal {
+/* Mouse hover, Touch class, and Keyboard focus states */
+.p5-dual-card:hover .p5-img-normal,
+.p5-dual-card:focus .p5-img-normal,
+.p5-dual-card:focus-within .p5-img-normal,
+.p5-dual-card.transformed .p5-img-normal {
   opacity: 0;
 }
 
-.p5-dual-card:hover .p5-img-transformed {
+.p5-dual-card:hover .p5-img-transformed,
+.p5-dual-card:focus .p5-img-transformed,
+.p5-dual-card:focus-within .p5-img-transformed,
+.p5-dual-card.transformed .p5-img-transformed {
   opacity: 1;
   transform: scale(1);
 }
@@ -601,13 +732,16 @@ input[type="password"].form-control-auth {
   letter-spacing: 0.5px;
   text-transform: uppercase;
   pointer-events: none;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.p5-dual-card:hover .p5-hover-badge {
+.p5-dual-card:hover .p5-hover-badge,
+.p5-dual-card:focus .p5-hover-badge,
+.p5-dual-card:focus-within .p5-hover-badge,
+.p5-dual-card.transformed .p5-hover-badge {
   background: #000;
   color: #ef4444;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
 }
 
 /* ==============================================================================
@@ -740,139 +874,444 @@ input[type="password"].form-control-auth {
   color: #00ff9d !important;
 }
 
-/* 2. Persona 4: Midnight Channel Vintage TV */
-.p4-tv-frame {
-  width: 420px;
-  max-width: 90vw;
-  background: #2b220a;
-  border: 6px solid #facc15;
-  border-radius: 24px;
-  padding: 16px;
-  box-shadow: 0 0 60px rgba(250, 204, 21, 0.7);
-  animation: tvFlicker 0.15s infinite;
-}
-
-.p4-tv-screen {
-  background: #181404;
-  border-radius: 16px;
-  height: 240px;
+/* ==============================================================================
+   REQUIREMENT 4: PERSONA 4 REVIVAL VINTAGE CRT TV & YELLOW/BLACK SPIRAL
+   ============================================================================== */
+.p4-transition-view {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100vw;
+  height: 100vh;
   position: relative;
   overflow: hidden;
-  border: 2px solid #635316;
 }
 
-.p4-tv-static {
+/* TV de Tubo Vintage Amarela - Corpo bojudo e moldura espessa */
+.p4-crt-tv {
+  position: relative;
+  width: 520px;
+  max-width: 92vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 38% 50%;
+  transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.4s ease;
+}
+
+.p4-crt-tv.tv-appear {
+  animation: p4TvPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.p4-crt-tv.tv-zooming {
+  transform: scale(4.2);
+}
+
+.p4-crt-tv.tv-fullscreen {
+  transform: scale(18);
+  opacity: 0.95;
+}
+
+/* Antenas no topo */
+.p4-tv-antennas {
+  position: relative;
+  width: 140px;
+  height: 48px;
+  margin-bottom: -6px;
+  z-index: 1;
+}
+
+.p4-tv-antennas .antenna {
+  position: absolute;
+  bottom: 0;
+  width: 5px;
+  height: 52px;
+  background: linear-gradient(to top, #78350f, #d97706, #fbbf24);
+  border-radius: 4px;
+  transform-origin: bottom center;
+}
+
+.p4-tv-antennas .antenna-left {
+  left: 30px;
+  transform: rotate(-32deg);
+}
+
+.p4-tv-antennas .antenna-right {
+  right: 30px;
+  transform: rotate(32deg);
+}
+
+/* Carcaça Amarela Volumosa da TV de Tubo */
+.p4-tv-body {
+  width: 100%;
+  background: linear-gradient(145deg, #facc15 0%, #eab308 45%, #ca8a04 100%);
+  border: 10px solid #a16207;
+  border-radius: 36px;
+  padding: 22px 24px;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.85),
+    0 0 50px rgba(234, 179, 8, 0.5),
+    inset 0 4px 12px rgba(255, 255, 255, 0.4),
+    inset 0 -6px 16px rgba(113, 63, 18, 0.6);
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Moldura Espessa da Tela */
+.p4-tv-bezel {
+  background: #1c1917;
+  border: 8px solid #292524;
+  border-radius: 28px;
+  padding: 8px;
+  box-shadow: inset 0 8px 24px rgba(0, 0, 0, 0.95);
+}
+
+/* Vidro Curvado da Tela CRT */
+.p4-crt-screen-wrap {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: #000;
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Linhas de Varredura Analógicas (Scanlines) */
+.p4-crt-scanlines {
   position: absolute;
   inset: 0;
-  background: repeating-radial-gradient(#facc15 0 0.0001%, #2b220a 0 0.0002%) 50% 0/2500px 2500px,
-              repeating-linear-gradient(rgba(0,0,0,0.5) 0 1px, transparent 0 2px);
-  opacity: 0.35;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.35) 0px,
+    rgba(0, 0, 0, 0.35) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 4;
 }
 
-.p4-tv-logo {
+/* Reflexo Curvado de Vidro CRT */
+.p4-crt-glare {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 25%, rgba(255, 255, 255, 0.22) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Chiado Visual Leve (Estática discreta restrita à tela) */
+.p4-crt-noise {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(rgba(250, 204, 21, 0.2) 1px, transparent 0),
+    radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 0);
+  background-size: 8px 8px, 12px 12px;
+  background-position: 0 0, 4px 4px;
+  opacity: 0.18;
+  animation: p4NoiseFlicker 0.1s steps(2) infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Espiral Amarela e Preta Hipnótica em Rotação Contínua */
+.p4-spiral-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.p4-spiral-svg {
+  width: 320px;
+  height: 320px;
+  animation: p4SpiralSpin 2.6s linear infinite;
+  filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.6));
+}
+
+/* Controles Laterais da TV CRT */
+.p4-tv-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.p4-tv-dial {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #44403c 0%, #1c1917 100%);
+  border: 3px solid #78350f;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.2);
   position: relative;
-  z-index: 10;
-  text-align: center;
+}
+
+.p4-tv-dial::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 12px;
+  background: #facc15;
+  border-radius: 2px;
+}
+
+.p4-tv-switch {
+  width: 24px;
+  height: 14px;
+  background: #78350f;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 4px #000;
+}
+
+.p4-tv-speaker-grille {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 50px;
+  margin: 6px 0;
+}
+
+.p4-tv-speaker-grille span {
+  display: block;
+  height: 3px;
+  background: #78350f;
+  border-radius: 2px;
 }
 
 .p4-tv-badge {
-  background: #facc15;
-  color: #000;
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 22px;
-  padding: 6px 16px;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-}
-
-.p4-tv-text {
   font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 800;
-  color: #fef08a;
+  font-size: 10px;
+  font-weight: 900;
+  color: #78350f;
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-@keyframes tvFlicker {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.004); }
-  100% { transform: scale(1); }
+@keyframes p4TvPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  70% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-/* 3. Persona 5: 3D Flying Calling Card */
-.p5-calling-card {
-  width: 480px;
-  max-width: 90vw;
-  background: #fff;
-  color: #000;
-  border-radius: 12px;
-  border: 4px solid #ef4444;
-  box-shadow: 0 0 80px rgba(239, 68, 68, 0.85);
-  transform: perspective(800px) rotateY(35deg) scale(0.4);
-  opacity: 0;
-  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+@keyframes p4SpiralSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-.p5-calling-card.card-flying {
-  transform: perspective(800px) rotateY(0deg) scale(1);
-  opacity: 1;
+@keyframes p4NoiseFlicker {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-2px, 1px); }
+  100% { transform: translate(1px, -1px); }
 }
 
-.p5-card-inner {
-  padding: 32px;
-  background: repeating-linear-gradient(-45deg, #fff, #fff 10px, #fef2f2 10px, #fef2f2 20px);
-}
-
-.p5-card-header {
+/* ==============================================================================
+   REQUIREMENT 5: PERSONA 5 ROYAL JOKER MASK & PROGRESSIVE BLUE FLAMES
+   ============================================================================== */
+.p5-transition-view {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-  border-bottom: 3px solid #ef4444;
-  padding-bottom: 12px;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
-.p5-flame-mask {
-  width: 48px;
-  height: 48px;
+.p5-mask-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
 }
 
-.p5-card-title {
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 900;
-  color: #ef4444;
-  letter-spacing: 1px;
+.p5-joker-mask-wrap {
+  position: relative;
+  width: 440px;
+  max-width: 88vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.p5-card-target {
-  font-size: 12px;
-  font-weight: 900;
-  color: #000;
-  letter-spacing: 1.5px;
-  margin-bottom: 8px;
+/* Imagem de Referência Oficial da Máscara de Joker */
+.p5-mask-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(37, 99, 235, 0.4);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
 }
 
-.p5-card-msg {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.6;
-  color: #1f2937;
-  margin-bottom: 20px;
-  font-style: italic;
+/* Overlay de Chamas Azuis Progressivas */
+.p5-blue-flames-overlay {
+  position: absolute;
+  inset: -20px -25px -10px -25px;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-.p5-card-footer {
-  text-align: right;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 900;
-  color: #ef4444;
-  letter-spacing: 1.5px;
+/* Camadas de Chamas com Gradientes Azul Royal, Ciano e Branco Elétrico */
+.p5-flame-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen;
+}
+
+.flame-layer-1 {
+  animation: p4BlueFlameWave1 1.4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 20px #2563eb);
+}
+
+.flame-layer-2 {
+  animation: p4BlueFlameWave2 1.1s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 25px #06b6d4);
+  opacity: 0.9;
+}
+
+.flame-layer-3 {
+  animation: p4BlueFlameWave3 0.8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 30px #93c5fd);
+  opacity: 0.95;
+}
+
+/* Línguas de Fogo Orgânicas */
+.p5-flame-tongues {
+  position: absolute;
+  inset: 0;
+}
+
+.p5-flame-tongues .tongue {
+  position: absolute;
+  bottom: 10px;
+  width: 24px;
+  height: 90px;
+  border-radius: 50% 50% 20% 20%;
+  background: radial-gradient(ellipse at 50% 90%, #ffffff 0%, #38bdf8 35%, #1d4ed8 75%, transparent 100%);
+  filter: blur(2px);
+  animation: p5TongueRise 1.2s ease-in-out infinite;
+}
+
+.tongue.t1 { left: 15%; height: 110px; animation-delay: 0.1s; }
+.tongue.t2 { left: 30%; height: 140px; animation-delay: 0.3s; }
+.tongue.t3 { left: 48%; height: 160px; animation-delay: 0.05s; }
+.tongue.t4 { left: 65%; height: 130px; animation-delay: 0.25s; }
+.tongue.t5 { left: 80%; height: 100px; animation-delay: 0.4s; }
+
+/* Faíscas Azuis Subindo */
+.p5-blue-sparks i {
+  position: absolute;
+  bottom: 20px;
+  width: 6px;
+  height: 6px;
+  background: #e0f2fe;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #38bdf8, 0 0 20px #2563eb;
+  animation: p5SparkFly 1.2s ease-out infinite;
+}
+
+.p5-blue-sparks i:nth-child(1) { left: 20%; animation-delay: 0.1s; }
+.p5-blue-sparks i:nth-child(2) { left: 35%; animation-delay: 0.4s; }
+.p5-blue-sparks i:nth-child(3) { left: 50%; animation-delay: 0.2s; }
+.p5-blue-sparks i:nth-child(4) { left: 65%; animation-delay: 0.5s; }
+.p5-blue-sparks i:nth-child(5) { left: 78%; animation-delay: 0.15s; }
+.p5-blue-sparks i:nth-child(6) { left: 42%; animation-delay: 0.35s; }
+
+/* Brilho Metaverso */
+.p5-flame-glow {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.45) 0%, rgba(6, 182, 212, 0.25) 50%, transparent 75%);
+  filter: blur(25px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+/* Sequência de Estados da Animação P5 */
+.p5-mask-stage.mask-appear .p5-mask-img {
+  animation: p5MaskEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.p5-mask-stage.flames-spark .p5-blue-flames-overlay {
+  opacity: 0.5;
+  transform: scaleY(0.5);
+}
+.p5-mask-stage.flames-spark .p5-flame-glow {
+  opacity: 0.6;
+}
+
+.p5-mask-stage.flames-engulf .p5-blue-flames-overlay {
+  opacity: 1;
+  transform: scaleY(1.15);
+}
+.p5-mask-stage.flames-engulf .p5-flame-glow {
+  opacity: 1;
+}
+.p5-mask-stage.flames-engulf .p5-mask-img {
+  filter: drop-shadow(0 0 35px #06b6d4) brightness(1.1);
+  transform: scale(1.08);
+}
+
+.p5-mask-stage.flames-flash {
+  animation: p5BlueFlare 0.4s ease-out forwards;
+}
+
+@keyframes p5MaskEnter {
+  0% { transform: scale(0.6) rotate(-8deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes p4BlueFlameWave1 {
+  0% { transform: translateY(0) scaleX(1); }
+  100% { transform: translateY(-16px) scaleX(1.05); }
+}
+
+@keyframes p4BlueFlameWave2 {
+  0% { transform: translateY(0) scaleX(1.04); }
+  100% { transform: translateY(-22px) scaleX(0.96); }
+}
+
+@keyframes p4BlueFlameWave3 {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-28px) scale(1.08); }
+}
+
+@keyframes p5TongueRise {
+  0% { transform: scaleY(0.7) translateY(0); opacity: 0.6; }
+  50% { transform: scaleY(1.2) translateY(-20px); opacity: 1; }
+  100% { transform: scaleY(0.6) translateY(-40px); opacity: 0; }
+}
+
+@keyframes p5SparkFly {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-160px) scale(0.3); opacity: 0; }
+}
+
+@keyframes p5BlueFlare {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(2.2); }
+  100% { filter: brightness(3); opacity: 0; }
 }
 
 /* Tables & Key boxes */
