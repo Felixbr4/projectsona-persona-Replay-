@@ -142,7 +142,47 @@ function url(string $path = ''): string {
 
 /**
  * Asset URL helper
+ * Handles:
+ * - Windows absolute paths (C:\xampp\htdocs\projecsona\...)
+ * - Pre-prefixed assets paths (assets/images/...)
+ * - Relative assets paths (images/..., css/...)
+ * - External URLs (https://...)
  */
 function asset(string $path): string {
-    return url('assets/' . ltrim($path, '/'));
+    if (empty($path)) {
+        return '';
+    }
+
+    // External URLs
+    if (preg_match('#^https?://#i', $path)) {
+        return $path;
+    }
+
+    // Normalize Windows backslashes
+    $normalized = str_replace('\\', '/', trim($path));
+
+    // Strip out absolute file system path if present
+    $projMarker = 'projecsona/';
+    $pos = stripos($normalized, $projMarker);
+    if ($pos !== false) {
+        $normalized = substr($normalized, $pos + strlen($projMarker));
+    }
+
+    $normalized = ltrim($normalized, '/');
+
+    // Prevent duplicate assets/ prefix
+    if (str_starts_with($normalized, 'assets/')) {
+        $cleanPath = $normalized;
+    } else {
+        $cleanPath = 'assets/' . $normalized;
+    }
+
+    // Auto cache-busting using file modification timestamp
+    $fullDiskPath = dirname(__DIR__) . '/' . $cleanPath;
+    $vParam = '';
+    if (file_exists($fullDiskPath)) {
+        $vParam = '?v=' . filemtime($fullDiskPath);
+    }
+
+    return url($cleanPath) . $vParam;
 }

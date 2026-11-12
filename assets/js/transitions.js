@@ -106,69 +106,88 @@ class PersonaTransitions {
                 </div>
             </div>
 
-            <!-- 3. Persona 5 Royal: Authentic Joker Mask with Progressive Organic Blue Flames -->
+            <!-- 3. Persona 5 Royal: Authentic Joker Mask with Explosive Organic Blue Flames -->
             <div id="p5-mask-container" class="p5-transition-view hidden">
                 <div class="p5-mask-stage" id="p5-mask-stage">
-                    <!-- Máscara de Joker Autêntica (Referência Oficial) -->
                     <div class="p5-joker-mask-wrap">
-                        <img src="${baseUrl}/assets/images/transitions/joker-mask.jpg" alt="Máscara de Joker" class="p5-mask-img" id="p5-mask-img">
-                        
-                        <!-- Chamas Azuis Progressivas e Orgânicas -->
-                        <div class="p5-blue-flames-overlay" id="p5-flames-overlay">
-                            <!-- Chamas de Base em Camadas SVG Orgânicas com Cores Azul Royal, Ciano e Índigo -->
-                            <svg class="p5-flame-layer flame-layer-1" viewBox="0 0 600 400" preserveAspectRatio="none">
-                                <path class="flame-path-1" d="M 50 350 Q 150 200, 200 350 T 350 350 T 500 350 Q 550 180, 580 350 Z" fill="url(#blueFlameGrad1)" />
-                                <defs>
-                                    <linearGradient id="blueFlameGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
-                                        <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.9" />
-                                        <stop offset="60%" stop-color="#2563eb" stop-opacity="0.8" />
-                                        <stop offset="90%" stop-color="#06b6d4" stop-opacity="0.85" />
-                                        <stop offset="100%" stop-color="#e0f2fe" stop-opacity="0.95" />
-                                    </linearGradient>
-                                </defs>
+                        <!-- SVG Definições de Gradientes e Filtros de Chamas -->
+                        <svg class="p5-flame-defs" width="0" height="0">
+                            <defs>
+                                <linearGradient id="p5BlueFlameDeep" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#0f172a" stop-opacity="0" />
+                                    <stop offset="20%" stop-color="#1e3a8a" stop-opacity="0.95" />
+                                    <stop offset="55%" stop-color="#2563eb" stop-opacity="0.9" />
+                                    <stop offset="85%" stop-color="#00f2fe" stop-opacity="0.95" />
+                                    <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
+                                </linearGradient>
+                                <linearGradient id="p5BlueFlameMid" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0" />
+                                    <stop offset="35%" stop-color="#3b82f6" stop-opacity="0.85" />
+                                    <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.95" />
+                                    <stop offset="90%" stop-color="#38bdf8" stop-opacity="1" />
+                                    <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
+                                </linearGradient>
+                                <linearGradient id="p5BlueFlameFront" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#1e40af" stop-opacity="0" />
+                                    <stop offset="30%" stop-color="#2563eb" stop-opacity="0.75" />
+                                    <stop offset="65%" stop-color="#00f2fe" stop-opacity="0.9" />
+                                    <stop offset="90%" stop-color="#e0f2fe" stop-opacity="0.95" />
+                                    <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+
+                        <!-- Camada 1: Chamas Traseiras Amplas (Back Flames) que contornam a máscara e sobem bem alto -->
+                        <div class="p5-flames-back-layer" id="p5-flames-back">
+                            <!-- Labaredas Externas Silhuetadas (Asas e Topo) -->
+                            <svg class="p5-flame-svg p5-flame-svg-back1" viewBox="0 0 1000 650" preserveAspectRatio="none">
+                                <path class="flame-path-back1" d="M 50 620 C 30 520, 20 400, 60 300 C 90 220, 130 140, 170 30 C 185 130, 215 220, 240 280 C 270 190, 310 110, 350 45 C 370 140, 400 230, 430 290 C 460 170, 480 80, 500 10 C 520 80, 540 170, 570 290 C 600 230, 630 140, 650 45 C 690 110, 730 190, 760 280 C 785 220, 815 130, 830 30 C 870 140, 910 220, 940 300 C 980 400, 970 520, 950 620 Z" fill="url(#p5BlueFlameDeep)" />
                             </svg>
 
-                            <svg class="p5-flame-layer flame-layer-2" viewBox="0 0 600 400" preserveAspectRatio="none">
-                                <path class="flame-path-2" d="M 80 360 Q 220 120, 280 360 T 450 360 Q 520 140, 550 360 Z" fill="url(#blueFlameGrad2)" />
-                                <defs>
-                                    <linearGradient id="blueFlameGrad2" x1="0%" y1="100%" x2="0%" y2="0%">
-                                        <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.85" />
-                                        <stop offset="50%" stop-color="#3b82f6" stop-opacity="0.8" />
-                                        <stop offset="85%" stop-color="#38bdf8" stop-opacity="0.9" />
-                                        <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
-                                    </linearGradient>
-                                </defs>
+                            <!-- Labaredas Médias Intermediárias -->
+                            <svg class="p5-flame-svg p5-flame-svg-back2" viewBox="0 0 1000 650" preserveAspectRatio="none">
+                                <path class="flame-path-back2" d="M 90 600 C 70 490, 60 370, 100 270 C 130 190, 165 110, 195 60 C 215 150, 245 230, 275 300 C 300 210, 340 130, 375 75 C 395 160, 420 245, 450 310 C 475 200, 490 100, 500 35 C 510 100, 525 200, 550 310 C 580 245, 605 160, 625 75 C 660 130, 700 210, 725 300 C 755 230, 785 150, 805 60 C 835 110, 870 190, 900 270 C 940 370, 930 490, 910 600 Z" fill="url(#p5BlueFlameMid)" />
+                            </svg>
+                        </div>
+
+                        <!-- Camada 2: A Máscara de Joker Autêntica Recortada -->
+                        <div class="p5-mask-element-wrap">
+                            <img src="${baseUrl}/assets/images/transitions/ed1cc11a-ebcc-4340-a8de-c73cfa7f2b91.png" 
+                                 alt="Máscara de Joker" 
+                                 class="p5-mask-img" 
+                                 id="p5-mask-img"
+                                 onerror="this.onerror=null; this.src='${baseUrl}/assets/images/transitions/joker-mask.png';">
+                        </div>
+
+                        <!-- Camada 3: Chamas Frontais que Cobrem a Máscara e Passam por Cima dela -->
+                        <div class="p5-flames-front-layer" id="p5-flames-front">
+                            <!-- Chamas Frontais que Lambem o Corpo da Máscara -->
+                            <svg class="p5-flame-svg p5-flame-svg-front" viewBox="0 0 1000 650" preserveAspectRatio="none">
+                                <path class="flame-path-front" d="M 140 580 C 160 460, 190 350, 230 250 C 255 180, 285 120, 310 80 C 330 160, 350 250, 380 320 C 410 230, 440 150, 470 95 C 488 60, 512 60, 530 95 C 560 150, 590 230, 620 320 C 650 250, 670 160, 690 80 C 715 120, 745 180, 770 250 C 810 350, 840 460, 860 580 Z" fill="url(#p5BlueFlameFront)" />
                             </svg>
 
-                            <svg class="p5-flame-layer flame-layer-3" viewBox="0 0 600 400" preserveAspectRatio="none">
-                                <path class="flame-path-3" d="M 20 370 Q 180 80, 260 370 T 420 370 Q 480 60, 580 370 Z" fill="url(#blueFlameGrad3)" />
-                                <defs>
-                                    <linearGradient id="blueFlameGrad3" x1="0%" y1="100%" x2="0%" y2="0%">
-                                        <stop offset="0%" stop-color="#1e40af" stop-opacity="0.9" />
-                                        <stop offset="40%" stop-color="#2563eb" stop-opacity="0.85" />
-                                        <stop offset="75%" stop-color="#06b6d4" stop-opacity="0.9" />
-                                        <stop offset="100%" stop-color="#e0e7ff" stop-opacity="1" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
+                            <!-- Chamas Saindo dos Olhos (Eye Flames) -->
+                            <div class="p5-eye-flame p5-eye-flame-left"></div>
+                            <div class="p5-eye-flame p5-eye-flame-right"></div>
 
-                            <!-- Línguas de fogo azuis verticais adicionais -->
+                            <!-- Línguas de Fogo Orgânicas Distribuídas ao Longo da Silhueta -->
                             <div class="p5-flame-tongues">
-                                <span class="tongue t1"></span>
-                                <span class="tongue t2"></span>
-                                <span class="tongue t3"></span>
-                                <span class="tongue t4"></span>
-                                <span class="tongue t5"></span>
-                                <span class="tongue t6"></span>
+                                <span class="tongue t-wing-left"></span>
+                                <span class="tongue t-eye-left"></span>
+                                <span class="tongue t-crest-left"></span>
+                                <span class="tongue t-crest-center"></span>
+                                <span class="tongue t-crest-right"></span>
+                                <span class="tongue t-eye-right"></span>
+                                <span class="tongue t-wing-right"></span>
                             </div>
 
-                            <!-- Faíscas e partículas azuis dinâmicas -->
+                            <!-- Faíscas Azuis Subindo Rapidamente -->
                             <div class="p5-blue-sparks">
-                                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
                             </div>
                         </div>
 
-                        <!-- Brilho radiante azul do Metaverso -->
+                        <!-- Brilho Radial do Metaverso -->
                         <div class="p5-flame-glow"></div>
                     </div>
                 </div>

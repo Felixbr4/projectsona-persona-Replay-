@@ -39,6 +39,7 @@
                     <h4>Segurança & Privacidade</h4>
                     <ul>
                         <li><a href="<?= url('lgpd') ?>" style="color: var(--theme-primary); font-weight: 700;">Termos da LGPD & Privacidade</a></li>
+                        <li><a href="javascript:void(0)" data-open-cookie-modal style="color: var(--theme-muted); font-size: 13px;"><i class="fa-solid fa-cookie-bite" style="color: var(--theme-primary); margin-right: 4px;"></i> Preferências de Cookies</a></li>
                         <li><span style="color: var(--theme-muted); font-size: 13px;">Criptografia AES-256</span></li>
                         <li><span style="color: var(--theme-muted); font-size: 13px;">Chaves Oficiais Steam</span></li>
                         <li><a href="<?= url('install.php') ?>">Painel de Instalação</a></li>
@@ -52,8 +53,12 @@
         </div>
     </footer>
 
+    <!-- LGPD Cookie Banner & Modal -->
+    <?php require_once __DIR__ . '/cookie_consent.php'; ?>
+
     <!-- App Scripts & Transitions -->
     <script src="<?= asset('js/transitions.js') ?>"></script>
     <script src="<?= asset('js/app.js') ?>"></script>
+    <script src="<?= asset('js/cookie-consent.js') ?>"></script>
 </body>
 </html>

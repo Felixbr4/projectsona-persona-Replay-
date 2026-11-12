@@ -678,6 +678,13 @@ input[type="password"].form-control-auth {
   position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
+  background-color: rgba(15, 23, 42, 0.6);
+}
+
+.character-portrait {
+  object-fit: cover;
+  object-position: top center;
+  image-rendering: auto;
 }
 
 .p5-img-normal {
@@ -686,6 +693,7 @@ input[type="password"].form-control-auth {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   transition: opacity 0.35s ease, transform 0.4s ease;
   z-index: 1;
 }
@@ -696,6 +704,7 @@ input[type="password"].form-control-auth {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   opacity: 0;
   transform: scale(1.06);
   transition: opacity 0.35s ease, transform 0.4s ease;
@@ -1139,113 +1148,180 @@ input[type="password"].form-control-auth {
 
 .p5-joker-mask-wrap {
   position: relative;
-  width: 440px;
-  max-width: 88vw;
+  width: 520px;
+  max-width: 90vw;
+  aspect-ratio: 1742 / 903;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Imagem de Referência Oficial da Máscara de Joker */
+/* SVG Defs invisível */
+.p5-flame-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Elemento da Máscara Recortada Transparente */
+.p5-mask-element-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .p5-mask-img {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(37, 99, 235, 0.4);
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.85));
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
 }
 
-/* Overlay de Chamas Azuis Progressivas */
-.p5-blue-flames-overlay {
+/* Camada 1: Chamas Traseiras Amplas que Extravasam a Máscara */
+.p5-flames-back-layer {
   position: absolute;
-  inset: -20px -25px -10px -25px;
+  inset: -65% -25% -20% -25%;
   pointer-events: none;
-  overflow: visible;
+  z-index: 1;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transform-origin: center bottom;
+  transform: scale(0.7) translateY(20px);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Camadas de Chamas com Gradientes Azul Royal, Ciano e Branco Elétrico */
-.p5-flame-layer {
+/* Camada 3: Chamas Frontais que Cobrem a Máscara */
+.p5-flames-front-layer {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  inset: -55% -15% -15% -15%;
+  pointer-events: none;
+  z-index: 5;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform-origin: center bottom;
+  transform: scale(0.7) translateY(20px);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.p5-flame-svg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  mix-blend-mode: screen;
+  pointer-events: none;
+  overflow: visible;
 }
 
-.flame-layer-1 {
-  animation: p4BlueFlameWave1 1.4s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 20px #2563eb);
+/* Ondulação e Distorção Dinâmica das Chamas */
+.p5-flame-svg-back1 {
+  filter: drop-shadow(0 0 25px #2563eb) drop-shadow(0 0 55px #1e3a8a);
+  animation: p5FlameWaveBack1 1.3s ease-in-out infinite alternate;
 }
 
-.flame-layer-2 {
-  animation: p4BlueFlameWave2 1.1s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 25px #06b6d4);
-  opacity: 0.9;
-}
-
-.flame-layer-3 {
-  animation: p4BlueFlameWave3 0.8s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 30px #93c5fd);
+.p5-flame-svg-back2 {
+  filter: drop-shadow(0 0 20px #00f2fe) drop-shadow(0 0 45px #3b82f6);
   opacity: 0.95;
+  animation: p5FlameWaveBack2 1.05s ease-in-out infinite alternate;
 }
 
-/* Línguas de Fogo Orgânicas */
+.p5-flame-svg-front {
+  filter: drop-shadow(0 0 15px #ffffff) drop-shadow(0 0 35px #00f2fe);
+  animation: p5FlameWaveFront 0.85s ease-in-out infinite alternate;
+}
+
+/* Chamas dos Olhos do Joker (Eye Flames - Efeito Anime P5) */
+.p5-eye-flame {
+  position: absolute;
+  top: 32%;
+  width: 48px;
+  height: 140px;
+  border-radius: 50% 50% 25% 25%;
+  background: radial-gradient(ellipse at 50% 85%, #ffffff 0%, #38bdf8 30%, #00f2fe 55%, #1d4ed8 85%, transparent 100%);
+  filter: blur(2px) drop-shadow(0 0 18px #00f2fe);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 6;
+  transform-origin: center bottom;
+}
+
+.p5-eye-flame-left {
+  left: 31%;
+  animation: p5EyeFlameLeft 0.75s ease-in-out infinite alternate;
+}
+
+.p5-eye-flame-right {
+  right: 31%;
+  animation: p5EyeFlameRight 0.82s ease-in-out infinite alternate 0.1s;
+}
+
+/* Línguas de Fogo Orgânicas Distribuídas ao Longo da Silhueta */
 .p5-flame-tongues {
   position: absolute;
   inset: 0;
+  pointer-events: none;
 }
 
 .p5-flame-tongues .tongue {
   position: absolute;
-  bottom: 10px;
-  width: 24px;
-  height: 90px;
+  bottom: 12%;
   border-radius: 50% 50% 20% 20%;
-  background: radial-gradient(ellipse at 50% 90%, #ffffff 0%, #38bdf8 35%, #1d4ed8 75%, transparent 100%);
-  filter: blur(2px);
-  animation: p5TongueRise 1.2s ease-in-out infinite;
+  background: radial-gradient(ellipse at 50% 90%, #ffffff 0%, #38bdf8 30%, #06b6d4 60%, #1e40af 85%, transparent 100%);
+  filter: blur(2px) drop-shadow(0 0 15px #00f2fe);
+  transform-origin: center bottom;
+  animation: p5TongueSurge 1.1s ease-in-out infinite;
 }
 
-.tongue.t1 { left: 15%; height: 110px; animation-delay: 0.1s; }
-.tongue.t2 { left: 30%; height: 140px; animation-delay: 0.3s; }
-.tongue.t3 { left: 48%; height: 160px; animation-delay: 0.05s; }
-.tongue.t4 { left: 65%; height: 130px; animation-delay: 0.25s; }
-.tongue.t5 { left: 80%; height: 100px; animation-delay: 0.4s; }
+.tongue.t-wing-left   { left: 10%; width: 26px; height: 160px; animation-delay: 0.1s; }
+.tongue.t-eye-left    { left: 30%; width: 30px; height: 190px; animation-delay: 0.25s; }
+.tongue.t-crest-left  { left: 42%; width: 28px; height: 210px; animation-delay: 0.05s; }
+.tongue.t-crest-center{ left: 49%; width: 34px; height: 230px; animation-delay: 0.35s; }
+.tongue.t-crest-right { left: 56%; width: 28px; height: 210px; animation-delay: 0.15s; }
+.tongue.t-eye-right   { right: 30%; width: 30px; height: 190px; animation-delay: 0.3s; }
+.tongue.t-wing-right  { right: 10%; width: 26px; height: 160px; animation-delay: 0.2s; }
 
-/* Faíscas Azuis Subindo */
+/* Faíscas Azuis e Brasas Eletrizantes */
 .p5-blue-sparks i {
   position: absolute;
-  bottom: 20px;
-  width: 6px;
-  height: 6px;
-  background: #e0f2fe;
+  bottom: 15%;
+  width: 5px;
+  height: 5px;
+  background: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 0 10px #38bdf8, 0 0 20px #2563eb;
-  animation: p5SparkFly 1.2s ease-out infinite;
+  box-shadow: 0 0 8px #ffffff, 0 0 16px #00f2fe, 0 0 28px #2563eb;
+  animation: p5SparkRising 1.1s ease-out infinite;
 }
 
-.p5-blue-sparks i:nth-child(1) { left: 20%; animation-delay: 0.1s; }
-.p5-blue-sparks i:nth-child(2) { left: 35%; animation-delay: 0.4s; }
-.p5-blue-sparks i:nth-child(3) { left: 50%; animation-delay: 0.2s; }
-.p5-blue-sparks i:nth-child(4) { left: 65%; animation-delay: 0.5s; }
-.p5-blue-sparks i:nth-child(5) { left: 78%; animation-delay: 0.15s; }
-.p5-blue-sparks i:nth-child(6) { left: 42%; animation-delay: 0.35s; }
+.p5-blue-sparks i:nth-child(1) { left: 12%; animation-delay: 0.05s; }
+.p5-blue-sparks i:nth-child(2) { left: 24%; animation-delay: 0.35s; }
+.p5-blue-sparks i:nth-child(3) { left: 36%; animation-delay: 0.15s; }
+.p5-blue-sparks i:nth-child(4) { left: 48%; animation-delay: 0.45s; }
+.p5-blue-sparks i:nth-child(5) { left: 58%; animation-delay: 0.25s; }
+.p5-blue-sparks i:nth-child(6) { left: 70%; animation-delay: 0.5s; }
+.p5-blue-sparks i:nth-child(7) { left: 82%; animation-delay: 0.1s; }
+.p5-blue-sparks i:nth-child(8) { left: 92%; animation-delay: 0.4s; }
+.p5-blue-sparks i:nth-child(9) { left: 42%; animation-delay: 0.6s; }
+.p5-blue-sparks i:nth-child(10){ left: 62%; animation-delay: 0.2s; }
 
-/* Brilho Metaverso */
+/* Brilho Radial do Metaverso */
 .p5-flame-glow {
   position: absolute;
-  inset: -30px;
+  inset: -45%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.45) 0%, rgba(6, 182, 212, 0.25) 50%, transparent 75%);
-  filter: blur(25px);
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.4) 0%, rgba(37, 99, 235, 0.35) 45%, rgba(30, 58, 138, 0.15) 70%, transparent 85%);
+  filter: blur(35px);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: -1;
+  transition: opacity 0.45s ease;
+  z-index: 0;
 }
 
 /* Sequência de Estados da Animação P5 */
@@ -1253,65 +1329,93 @@ input[type="password"].form-control-auth {
   animation: p5MaskEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.p5-mask-stage.flames-spark .p5-blue-flames-overlay {
-  opacity: 0.5;
-  transform: scaleY(0.5);
+/* 1. Surgimento inicial das chamas nos contornos e olhos */
+.p5-mask-stage.flames-spark .p5-flames-back-layer,
+.p5-mask-stage.flames-spark .p5-flames-front-layer {
+  opacity: 0.75;
+  transform: scale(0.9) translateY(5px);
+}
+.p5-mask-stage.flames-spark .p5-eye-flame {
+  opacity: 0.85;
 }
 .p5-mask-stage.flames-spark .p5-flame-glow {
-  opacity: 0.6;
+  opacity: 0.7;
+}
+.p5-mask-stage.flames-spark .p5-mask-img {
+  filter: drop-shadow(0 0 20px #00f2fe) drop-shadow(0 0 45px #2563eb) brightness(1.1);
 }
 
-.p5-mask-stage.flames-engulf .p5-blue-flames-overlay {
+/* 2. Explosão de chamas cobrindo a máscara por completo */
+.p5-mask-stage.flames-engulf .p5-flames-back-layer,
+.p5-mask-stage.flames-engulf .p5-flames-front-layer {
   opacity: 1;
-  transform: scaleY(1.15);
+  transform: scale(1.15) translateY(-15px);
+}
+.p5-mask-stage.flames-engulf .p5-eye-flame {
+  opacity: 1;
+  transform: scale(1.3) translateY(-25px);
 }
 .p5-mask-stage.flames-engulf .p5-flame-glow {
   opacity: 1;
 }
 .p5-mask-stage.flames-engulf .p5-mask-img {
-  filter: drop-shadow(0 0 35px #06b6d4) brightness(1.1);
+  filter: drop-shadow(0 0 35px #00f2fe) drop-shadow(0 0 75px #2563eb) drop-shadow(0 0 110px #1e3a8a) brightness(1.25) contrast(1.12);
   transform: scale(1.08);
 }
 
+/* 3. Clarão estelar de transição */
 .p5-mask-stage.flames-flash {
   animation: p5BlueFlare 0.4s ease-out forwards;
 }
 
 @keyframes p5MaskEnter {
-  0% { transform: scale(0.6) rotate(-8deg); opacity: 0; }
+  0% { transform: scale(0.65) rotate(-6deg); opacity: 0; }
   100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
-@keyframes p4BlueFlameWave1 {
-  0% { transform: translateY(0) scaleX(1); }
-  100% { transform: translateY(-16px) scaleX(1.05); }
+@keyframes p5FlameWaveBack1 {
+  0%   { transform: translateY(0) scaleX(1) scaleY(1); }
+  50%  { transform: translateY(-18px) scaleX(1.04) scaleY(1.08) skewX(-1.5deg); }
+  100% { transform: translateY(-32px) scaleX(0.97) scaleY(1.14) skewX(1.5deg); }
 }
 
-@keyframes p4BlueFlameWave2 {
-  0% { transform: translateY(0) scaleX(1.04); }
-  100% { transform: translateY(-22px) scaleX(0.96); }
+@keyframes p5FlameWaveBack2 {
+  0%   { transform: translateY(0) scaleX(1.03) scaleY(1); }
+  50%  { transform: translateY(-22px) scaleX(0.96) scaleY(1.12) skewX(2deg); }
+  100% { transform: translateY(-36px) scaleX(1.05) scaleY(1.18) skewX(-1.5deg); }
 }
 
-@keyframes p4BlueFlameWave3 {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-28px) scale(1.08); }
+@keyframes p5FlameWaveFront {
+  0%   { transform: translateY(0) scaleX(1) scaleY(1); }
+  50%  { transform: translateY(-16px) scaleX(1.05) scaleY(1.1) skewX(-2deg); }
+  100% { transform: translateY(-28px) scaleX(0.98) scaleY(1.16) skewX(2deg); }
 }
 
-@keyframes p5TongueRise {
-  0% { transform: scaleY(0.7) translateY(0); opacity: 0.6; }
-  50% { transform: scaleY(1.2) translateY(-20px); opacity: 1; }
-  100% { transform: scaleY(0.6) translateY(-40px); opacity: 0; }
+@keyframes p5EyeFlameLeft {
+  0%   { transform: scaleY(0.8) scaleX(0.9) rotate(-3deg); }
+  100% { transform: scaleY(1.25) scaleX(1.1) translateY(-14px) rotate(2deg); }
 }
 
-@keyframes p5SparkFly {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(-160px) scale(0.3); opacity: 0; }
+@keyframes p5EyeFlameRight {
+  0%   { transform: scaleY(0.85) scaleX(1.05) rotate(3deg); }
+  100% { transform: scaleY(1.3) scaleX(0.9) translateY(-16px) rotate(-2deg); }
+}
+
+@keyframes p5TongueSurge {
+  0%   { transform: scaleY(0.7) translateY(0); opacity: 0.6; }
+  50%  { transform: scaleY(1.25) translateY(-30px) scaleX(1.1); opacity: 1; }
+  100% { transform: scaleY(0.6) translateY(-60px) scaleX(0.85); opacity: 0; }
+}
+
+@keyframes p5SparkRising {
+  0%   { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-220px) scale(0.2) rotate(180deg); opacity: 0; }
 }
 
 @keyframes p5BlueFlare {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(2.2); }
-  100% { filter: brightness(3); opacity: 0; }
+  0%   { filter: brightness(1); }
+  45%  { filter: brightness(2.6); }
+  100% { filter: brightness(3.5); opacity: 0; }
 }
 
 /* Tables & Key boxes */
@@ -1397,4 +1501,499 @@ input[type="password"].form-control-auth {
 @media (max-width: 600px) {
   .hero-title { font-size: 30px; }
   .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* ==============================================================================
+   PERSONA REPLAY - LGPD Cookie Banner & Modal Preferences System
+   ============================================================================== */
+
+/* Floating Cookie Banner */
+.lgpd-cookie-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 20px;
+  right: 20px;
+  max-width: 1180px;
+  margin: 0 auto;
+  z-index: 8500;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-left: 5px solid var(--theme-primary);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 25px var(--theme-glow);
+  padding: 22px 28px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transform: translateY(140%);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.lgpd-cookie-banner.active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lgpd-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+
+.lgpd-banner-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.lgpd-banner-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.lgpd-banner-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid var(--theme-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--theme-primary);
+  flex-shrink: 0;
+}
+
+.lgpd-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  margin-bottom: 4px;
+  display: inline-block;
+}
+
+.lgpd-banner-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.lgpd-banner-desc {
+  font-size: 13px;
+  color: var(--theme-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.lgpd-banner-desc strong {
+  color: #fff;
+}
+
+.lgpd-link {
+  color: var(--theme-primary);
+  font-weight: 700;
+  text-decoration: underline;
+  margin-left: 4px;
+  transition: color 0.2s ease;
+}
+
+.lgpd-link:hover {
+  filter: brightness(1.2);
+}
+
+.lgpd-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.lgpd-btn {
+  padding: 10px 18px;
+  font-size: 12px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Modal Overlay & Card */
+.lgpd-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  background: rgba(4, 7, 20, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lgpd-modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lgpd-modal-card {
+  background: var(--theme-bg);
+  border: 1px solid var(--theme-border);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px var(--theme-glow);
+  max-width: 680px;
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.lgpd-modal-overlay.active .lgpd-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.lgpd-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 28px 16px 28px;
+  border-bottom: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+}
+
+.lgpd-modal-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+.lgpd-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--theme-muted);
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 6px;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.lgpd-modal-close:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.lgpd-modal-body {
+  padding: 22px 28px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.lgpd-modal-intro {
+  font-size: 13px;
+  color: var(--theme-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.lgpd-modal-intro strong {
+  color: #fff;
+}
+
+.lgpd-category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lgpd-category-card {
+  background: var(--theme-card);
+  border: 1px solid var(--theme-border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.lgpd-category-card:hover {
+  border-color: var(--theme-primary);
+}
+
+.lgpd-category-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.lgpd-category-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.lgpd-category-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lgpd-category-text {
+  font-size: 12px;
+  color: var(--theme-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Switch Slider */
+.lgpd-switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.lgpd-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.lgpd-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 24px;
+  border: 1px solid var(--theme-border);
+}
+
+.lgpd-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.lgpd-switch input:checked + .lgpd-slider {
+  background-color: var(--theme-primary);
+  border-color: var(--theme-primary);
+  box-shadow: 0 0 10px var(--theme-glow);
+}
+
+.lgpd-switch input:checked + .lgpd-slider:before {
+  transform: translateX(22px);
+}
+
+.lgpd-slider.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: var(--theme-primary);
+  border-color: var(--theme-primary);
+}
+
+/* Modal Footer */
+.lgpd-modal-footer {
+  padding: 18px 28px;
+  border-top: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.lgpd-modal-btn {
+  padding: 10px 18px;
+  font-size: 12px;
+}
+
+/* Floating Trigger Button */
+.lgpd-floating-trigger {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  z-index: 1000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  color: var(--theme-primary);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lgpd-floating-trigger:hover {
+  transform: scale(1.12);
+  border-color: var(--theme-primary);
+  box-shadow: 0 8px 25px var(--theme-glow);
+  color: #fff;
+}
+
+.lgpd-floating-tooltip {
+  position: absolute;
+  left: 54px;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.lgpd-floating-trigger:hover .lgpd-floating-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Toast Notification */
+.lgpd-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-left: 4px solid var(--theme-primary);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px var(--theme-glow);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.lgpd-toast i {
+  color: var(--theme-primary);
+  font-size: 16px;
+}
+
+.lgpd-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsividade Mobile & Tablet */
+@media (max-width: 900px) {
+  .lgpd-banner-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .lgpd-banner-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .lgpd-banner-actions .btn {
+    flex: 1 1 auto;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .lgpd-cookie-banner {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 16px 18px;
+  }
+
+  .lgpd-banner-header {
+    gap: 10px;
+  }
+
+  .lgpd-banner-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .lgpd-banner-title {
+    font-size: 15px;
+  }
+
+  .lgpd-banner-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .lgpd-banner-actions .btn {
+    width: 100%;
+  }
+
+  .lgpd-modal-header,
+  .lgpd-modal-body,
+  .lgpd-modal-footer {
+    padding: 16px 18px;
+  }
+
+  .lgpd-modal-footer {
+    flex-direction: column;
+  }
+
+  .lgpd-modal-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

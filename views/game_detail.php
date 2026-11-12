@@ -75,11 +75,11 @@ $isP5 = ($game['theme'] === 'persona5');
                          style="padding: 0; overflow: hidden; border-radius: 16px;">
                         <div class="<?= $hasTransformed ? 'p5-img-container' : '' ?>" style="<?= !$hasTransformed ? 'position: relative; aspect-ratio: 1 / 1; overflow: hidden;' : '' ?>">
                             <?php if ($hasTransformed): ?>
-                                <img src="<?= asset($char['image']) ?>" alt="<?= htmlspecialchars($char['name']) ?>" class="p5-img-normal">
-                                <img src="<?= asset($char['image_transformed']) ?>" alt="<?= htmlspecialchars($char['name']) ?> Transformed" class="p5-img-transformed">
+                                <img src="<?= asset($char['image']) ?>" alt="<?= htmlspecialchars($char['name']) ?>" class="p5-img-normal character-portrait">
+                                <img src="<?= asset($char['image_transformed']) ?>" alt="<?= htmlspecialchars($char['name']) ?> Transformed" class="p5-img-transformed character-portrait">
                                 <div class="p5-hover-badge"><i class="fa-solid fa-mask"></i> Forma Ladrão</div>
                             <?php else: ?>
-                                <img src="<?= asset($char['image']) ?>" alt="<?= htmlspecialchars($char['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="<?= asset($char['image']) ?>" alt="<?= htmlspecialchars($char['name']) ?>" class="character-portrait" style="width: 100%; height: 100%; object-fit: cover; object-position: top center;">
                             <?php endif; ?>
 
                             <div style="position: absolute; bottom: 0; inset-inline: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 16px; z-index: 3;">

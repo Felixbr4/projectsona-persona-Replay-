@@ -149,6 +149,28 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
             </div>
         </div>
+
+        <!-- Section 6 -->
+        <div class="card" style="padding: 32px;">
+            <h2 class="font-display" style="font-size: 20px; font-weight: 900; text-transform: uppercase; margin-bottom: 16px; color: var(--theme-primary);">
+                6. Política de Cookies & Gestão de Consentimento
+            </h2>
+            <p style="color: var(--theme-muted); font-size: 14px; line-height: 1.8; margin-bottom: 16px;">
+                Em total transparência com o Artigo 9º da LGPD, os cookies utilizados pela plataforma são classificados nas seguintes categorias:
+            </p>
+            <ul style="padding-left: 20px; color: var(--theme-muted); font-size: 14px; line-height: 1.8; margin-bottom: 24px;">
+                <li><strong>Cookies Estritamente Necessários:</strong> Fundamentais para autenticação, controle de sessões, integridade do carrinho e segurança das chaves Steam (AES-256). Sempre ativos.</li>
+                <li><strong>Cookies de Preferências & Temas:</strong> Armazenam sua personalização visual (Persona 3, 4, 5 ou Velvet Room). Opcionais.</li>
+                <li><strong>Cookies Analíticos:</strong> Coletam métricas anônimas de tráfego e latência para aprimoramento da performance. Opcionais.</li>
+                <li><strong>Cookies de Marketing:</strong> Relevância em comparativos de preços e alertas promocionais. Opcionais.</li>
+            </ul>
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn btn-primary" data-open-cookie-modal>
+                    <i class="fa-solid fa-sliders"></i> Gerenciar Preferências de Cookies
+                </button>
+                <span style="font-size: 13px; color: var(--theme-muted);">Você pode alterar ou revogar seu consentimento a qualquer momento.</span>
+            </div>
+        </div>
     </div>
 </div>
 

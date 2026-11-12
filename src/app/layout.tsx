@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/themes/ThemeProvider";
 import { TransitionManager } from "@/components/transitions/TransitionManager";
+import ConsentPopup from "@/components/ui/ConsentPopup";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Header } from "@/components/layout/Header";
@@ -47,6 +48,7 @@ export default function RootLayout({
                   <Footer />
                 </div>
               </TransitionManager>
+              <ConsentPopup />
             </ThemeProvider>
           </CartProvider>
         </AuthProvider>
